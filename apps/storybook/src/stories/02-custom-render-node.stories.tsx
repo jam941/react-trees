@@ -49,7 +49,7 @@ export const Default: StoryObj = {
     <div style={{ width: 700, height: 200 }}>
       <ProcessGraph
         graph={graph}
-        renderNode={(n) => <RichNode node={n as PositionedNode<NodeData>} />}
+        renderNode={(n) => <RichNode node={n} />}
       />
     </div>
   ),
