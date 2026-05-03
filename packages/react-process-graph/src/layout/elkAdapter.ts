@@ -1,8 +1,4 @@
-import type { ElkNode as ElkNodeType } from 'elkjs/lib/elk-api';
-
 type ElkInstance = { layout: (graph: unknown) => Promise<unknown> };
-// We only use ElkNodeType for documentation; suppress the unused import
-type _ElkNodeDoc = ElkNodeType;
 import type {
   ProcessGraphSpec,
   LayoutResult,
@@ -52,7 +48,6 @@ function buildElkGraph(
   cycleEdgeIds: Set<string>,
   direction: Direction,
 ): ElkGraph {
-  const groupIds = new Set<string>((spec.groups ?? []).map((g) => g.id));
   const layoutOptions = directionToElkOptions(direction);
 
   // Map groupId → child ElkNodes (nodes and nested groups)
@@ -208,7 +203,7 @@ export async function runLayout(
   const cycleEdgeIds = new Set(cycleEdges.map((e) => e.id));
 
   const elkGraph = buildElkGraph(spec, cycleEdgeIds, direction);
-  const elkResult = (await elk.layout(elkGraph as Parameters<typeof elk.layout>[0])) as ElkGraph;
+  const elkResult = (await elk.layout(elkGraph)) as ElkGraph;
 
   const { nodes, groups, edges } = extractResults(elkResult, spec, cycleEdgeIds);
 

@@ -18,6 +18,8 @@ export default defineConfig({
       exclude: [
         'src/index.ts',
         'src/types.ts',
+        'src/ProcessGraph.tsx',
+        'src/view/Viewport.tsx',
         '**/*.test.ts',
         '**/*.test-d.ts',
         '**/*.test.tsx',

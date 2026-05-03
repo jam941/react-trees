@@ -23,8 +23,10 @@ export interface ProcessGroup<TData = unknown> {
 
 export interface ProcessEdge {
   id: string;
-  source: NodeId | GroupId;
-  target: NodeId | GroupId;
+  /** ID of source node or group (both NodeId and GroupId are plain strings) */
+  source: string;
+  /** ID of target node or group (both NodeId and GroupId are plain strings) */
+  target: string;
   /** Disambiguates when a node and group share the same id string */
   sourceKind?: 'node' | 'group';
   targetKind?: 'node' | 'group';
