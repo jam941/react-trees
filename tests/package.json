@@ -1,0 +1,13 @@
+{
+  "name": "@internal/tests",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "test": "echo 'run tests from root with pnpm test:e2e'"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.9.0",
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^22.0.0"
+  }
+}

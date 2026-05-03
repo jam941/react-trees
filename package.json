@@ -1,0 +1,21 @@
+{
+  "name": "react-process-graph-workspace",
+  "private": true,
+  "scripts": {
+    "build": "pnpm --filter react-process-graph build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "test:e2e": "playwright test --config tests/playwright.config.ts --project=e2e",
+    "test:visual": "playwright test --config tests/playwright.config.ts --project=visual",
+    "test:perf": "playwright test --config tests/playwright.config.ts --project=perf",
+    "test:a11y": "playwright test --config tests/playwright.config.ts --project=a11y",
+    "storybook": "pnpm --filter @internal/storybook storybook",
+    "gallery": "pnpm --filter @internal/gallery dev",
+    "build:storybook": "pnpm --filter @internal/storybook build",
+    "build:gallery": "pnpm --filter @internal/gallery build"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["@swc/core", "esbuild"]
+  }
+}

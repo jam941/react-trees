@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.superpowers/
+storybook-static/
+playwright-report/
+playwright/.cache/
+tests/visual/__screenshots__/
+coverage/
+*.local
+.env
