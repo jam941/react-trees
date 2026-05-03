@@ -8,3 +8,4 @@ tests/visual/__screenshots__/
 coverage/
 *.local
 .env
+.claude/settings.local.json
