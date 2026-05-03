@@ -12,6 +12,8 @@ export function NodeLayer<TNode>({ nodes, renderNode }: NodeLayerProps<TNode>) {
         <div
           key={node.id}
           data-rpg-node={node.id}
+          role="group"
+          aria-label={`Node ${node.id}`}
           style={{
             position: 'absolute',
             left: node.x,

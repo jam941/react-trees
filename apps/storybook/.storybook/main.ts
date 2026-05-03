@@ -11,6 +11,14 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
+  async viteFinal(config) {
+    config.resolve ??= {};
+    config.resolve.alias = {
+      ...((config.resolve.alias as Record<string, string>) ?? {}),
+      elkjs: 'elkjs/lib/elk.bundled.js',
+    };
+    return config;
+  },
 };
 
 export default config;

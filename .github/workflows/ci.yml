@@ -58,10 +58,8 @@ jobs:
       - run: pnpx playwright install --with-deps chromium
       - run: pnpm test:perf
 
-  a11y:
+  visual:
     runs-on: ubuntu-latest
-    # Enabled once a11y specs exist (Step 11+)
-    if: false
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -73,5 +71,28 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
+      - run: pnpm --filter @internal/gallery build
+      - run: pnpx playwright install --with-deps chromium
+      - run: pnpm test:visual
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: visual-regression-diffs
+          path: playwright-report/
+
+  a11y:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm --filter @internal/gallery build
       - run: pnpx playwright install --with-deps chromium
       - run: pnpm test:a11y
