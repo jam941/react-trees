@@ -15,6 +15,14 @@
     "build:storybook": "pnpm --filter @internal/storybook build",
     "build:gallery": "pnpm --filter @internal/gallery build"
   },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-react": "^7.37.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "typescript-eslint": "^8.0.0"
+  },
   "pnpm": {
     "onlyBuiltDependencies": ["@swc/core", "esbuild"]
   }

@@ -26,8 +26,6 @@ jobs:
 
   e2e:
     runs-on: ubuntu-latest
-    # Enabled once Playwright specs exist (Step 5+)
-    if: false
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -45,8 +43,6 @@ jobs:
 
   perf:
     runs-on: ubuntu-latest
-    # Enabled once perf specs exist (Step 6+)
-    if: false
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
