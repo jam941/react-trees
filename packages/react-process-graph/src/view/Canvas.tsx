@@ -5,14 +5,13 @@ interface CanvasProps {
   className?: string;
   style?: React.CSSProperties;
   worldStyle?: React.CSSProperties;
-  onWheel?: (e: React.WheelEvent<HTMLDivElement>) => void;
   onPointerDown?: (e: React.PointerEvent<HTMLDivElement>) => void;
   onPointerMove?: (e: React.PointerEvent<HTMLDivElement>) => void;
   onPointerUp?: (e: React.PointerEvent<HTMLDivElement>) => void;
 }
 
 export const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
-  ({ children, className, style, worldStyle, onWheel, onPointerDown, onPointerMove, onPointerUp }, ref) => (
+  ({ children, className, style, worldStyle, onPointerDown, onPointerMove, onPointerUp }, ref) => (
     <div
       ref={ref}
       className={className}
@@ -26,7 +25,6 @@ export const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       }}
       role="application"
       aria-label="Process dependency graph"
-      onWheel={onWheel}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}

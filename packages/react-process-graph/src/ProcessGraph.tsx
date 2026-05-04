@@ -33,6 +33,7 @@ export function ProcessGraph<TNode = unknown, TGroup = unknown>({
   const hasFitted = useRef(false);
 
   const { worldStyle, handlers, applyFit, transform } = usePanZoom(
+    containerRef,
     defaultZoom ? { scale: defaultZoom } : undefined,
   );
 

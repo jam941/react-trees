@@ -31,15 +31,6 @@ describe('Canvas', () => {
     expect(inner.style.transform).toBe('translate(10px, 20px) scale(2)');
   });
 
-  it('calls onWheel handler', () => {
-    const onWheel = vi.fn();
-    const { container } = render(
-      <Canvas onWheel={onWheel}><span /></Canvas>,
-    );
-    fireEvent.wheel(container.firstChild as Element, { deltaY: -100 });
-    expect(onWheel).toHaveBeenCalledOnce();
-  });
-
   it('calls onPointerDown / onPointerMove / onPointerUp handlers', () => {
     const onPointerDown = vi.fn();
     const onPointerMove = vi.fn();

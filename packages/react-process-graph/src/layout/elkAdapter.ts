@@ -194,6 +194,50 @@ function extractResults(
   return { nodes: positionedNodes, groups: positionedGroups, edges: positionedEdges };
 }
 
+type Rect4 = { x: number; y: number; width: number; height: number };
+
+function exitPoint(r: Rect4, direction: Direction): Point {
+  switch (direction) {
+    case 'LR': return { x: r.x + r.width, y: r.y + r.height / 2 };
+    case 'RL': return { x: r.x,            y: r.y + r.height / 2 };
+    case 'TB': return { x: r.x + r.width / 2, y: r.y + r.height };
+    case 'BT': return { x: r.x + r.width / 2, y: r.y };
+    default:   return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
+  }
+}
+
+function entryPoint(r: Rect4, direction: Direction): Point {
+  switch (direction) {
+    case 'LR': return { x: r.x,            y: r.y + r.height / 2 };
+    case 'RL': return { x: r.x + r.width,  y: r.y + r.height / 2 };
+    case 'TB': return { x: r.x + r.width / 2, y: r.y };
+    case 'BT': return { x: r.x + r.width / 2, y: r.y + r.height };
+    default:   return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
+  }
+}
+
+function snapEdgeEndpoints(
+  edges: PositionedEdge[],
+  nodes: PositionedNode[],
+  groups: PositionedGroup[],
+  direction: Direction,
+): PositionedEdge[] {
+  if (direction === 'force') return edges;
+
+  const lookup = new Map<string, Rect4>();
+  for (const n of nodes)  lookup.set(n.id, n);
+  for (const g of groups) lookup.set(g.id, g);
+
+  return edges.map((edge) => {
+    const src = lookup.get(edge.source);
+    const tgt = lookup.get(edge.target);
+    if (!src || !tgt || edge.points.length < 2) return edge;
+
+    const bendPoints = edge.points.slice(1, -1);
+    return { ...edge, points: [exitPoint(src, direction), ...bendPoints, entryPoint(tgt, direction)] };
+  });
+}
+
 export async function runLayout(
   elk: ElkInstance,
   spec: ProcessGraphSpec,
@@ -205,7 +249,8 @@ export async function runLayout(
   const elkGraph = buildElkGraph(spec, cycleEdgeIds, direction);
   const elkResult = (await elk.layout(elkGraph)) as ElkGraph;
 
-  const { nodes, groups, edges } = extractResults(elkResult, spec, cycleEdgeIds);
+  const { nodes, groups, edges: rawEdges } = extractResults(elkResult, spec, cycleEdgeIds);
+  const edges = snapEdgeEndpoints(rawEdges, nodes, groups, direction);
 
   const allRects = [
     ...nodes.map((n) => ({ x: n.x, y: n.y, width: n.width, height: n.height })),

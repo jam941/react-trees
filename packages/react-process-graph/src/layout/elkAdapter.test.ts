@@ -160,4 +160,45 @@ describe('runLayout', () => {
     // Both calls use the same elk mock; we verify both succeed without error
     expect(elk.layout).toHaveBeenCalledTimes(2);
   });
+
+  it('snaps edge endpoints to the direction-correct face center (LR)', async () => {
+    const spec: ProcessGraphSpec = {
+      nodes: [
+        { id: 'a', width: 120, height: 60 },
+        { id: 'b', width: 120, height: 60 },
+      ],
+      edges: [{ id: 'e1', source: 'a', target: 'b' }],
+    };
+    // Mock positions: a at (0,0), b at (140,0)
+    const elk = makeElkMock({ x: 0, y: 0, w: 120, h: 60 });
+    const result = await runLayout(elk, spec, 'LR');
+
+    const edge = result.edges.find((e) => e.id === 'e1')!;
+    const nodeA = result.nodes.find((n) => n.id === 'a')!;
+    const nodeB = result.nodes.find((n) => n.id === 'b')!;
+
+    // LR: source exits from right-center, target enters at left-center
+    expect(edge.points[0]).toEqual({ x: nodeA.x + nodeA.width, y: nodeA.y + nodeA.height / 2 });
+    expect(edge.points[edge.points.length - 1]).toEqual({ x: nodeB.x, y: nodeB.y + nodeB.height / 2 });
+  });
+
+  it('snaps edge endpoints to the direction-correct face center (TB)', async () => {
+    const spec: ProcessGraphSpec = {
+      nodes: [
+        { id: 'a', width: 120, height: 60 },
+        { id: 'b', width: 120, height: 60 },
+      ],
+      edges: [{ id: 'e1', source: 'a', target: 'b' }],
+    };
+    const elk = makeElkMock({ x: 0, y: 0, w: 120, h: 60 });
+    const result = await runLayout(elk, spec, 'TB');
+
+    const edge = result.edges.find((e) => e.id === 'e1')!;
+    const nodeA = result.nodes.find((n) => n.id === 'a')!;
+    const nodeB = result.nodes.find((n) => n.id === 'b')!;
+
+    // TB: source exits from bottom-center, target enters at top-center
+    expect(edge.points[0]).toEqual({ x: nodeA.x + nodeA.width / 2, y: nodeA.y + nodeA.height });
+    expect(edge.points[edge.points.length - 1]).toEqual({ x: nodeB.x + nodeB.width / 2, y: nodeB.y });
+  });
 });
