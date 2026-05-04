@@ -28,13 +28,20 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
 
-      # Build gallery at /
+      # Build gallery at /react-trees/
       - run: pnpm --filter @internal/gallery build
+        env:
+          GALLERY_BASE: /react-trees/
       - run: mkdir -p _site
       - run: cp -r apps/gallery/dist/. _site/
+      # SPA fallback: GitHub Pages serves 404.html for unknown paths,
+      # so client-side routes survive a hard refresh.
+      - run: cp _site/index.html _site/404.html
 
-      # Build storybook at /storybook
+      # Build storybook at /react-trees/storybook/
       - run: pnpm --filter @internal/storybook build
+        env:
+          STORYBOOK_BASE: /react-trees/storybook/
       - run: mkdir -p _site/storybook
       - run: cp -r apps/storybook/storybook-static/. _site/storybook/
 

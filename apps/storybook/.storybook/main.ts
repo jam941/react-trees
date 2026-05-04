@@ -17,6 +17,7 @@ const config: StorybookConfig = {
       ...((config.resolve.alias as Record<string, string>) ?? {}),
       elkjs: 'elkjs/lib/elk.bundled.js',
     };
+    if (process.env['STORYBOOK_BASE']) config.base = process.env['STORYBOOK_BASE'];
     return config;
   },
 };

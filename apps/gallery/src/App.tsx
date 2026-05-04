@@ -32,7 +32,7 @@ const linkStyle = ({ isActive }: { isActive: boolean }): React.CSSProperties => 
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div style={{ display: 'flex' }}>
         <nav style={navStyle}>
           <span style={{ fontWeight: 700, fontSize: 15, marginBottom: 8 }}>Examples</span>
